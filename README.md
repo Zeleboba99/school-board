@@ -4,7 +4,7 @@
 
 Cсылка на trello: https://trello.com/b/iPO4OqP6/school-board
 
-Ссылка на figma: 
+Ссылка на miro: https://miro.com/app/board/o9J_kum2yiE=/ 
 
 Участники команды:
 1. Ольга Стребкова (менеджер проекта, бизнес-аналитик), группа 4.2 olyastrebkova449@gmail.com
