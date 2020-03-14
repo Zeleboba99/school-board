@@ -6,6 +6,8 @@ Cсылка на trello: https://trello.com/b/iPO4OqP6/school-board
 
 Ссылка на miro: https://miro.com/app/board/o9J_kum2yiE=/ 
 
+Ссылка на figma: https://www.figma.com/file/wPcfshBOBJT0JbfsF3YPyA/School-board?node-id=0%3A1
+
 Ссылка на техническое задание: 
 
 Участники команды:
