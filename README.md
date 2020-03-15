@@ -1,14 +1,12 @@
 <h3>Название проекта: Школьная новостная доска</h3>
 
-Ссылка на github: https://github.com/Zeleboba99/school-board/ 
+<a href="https://trello.com/b/iPO4OqP6/school-board">Trello</a>
 
-Cсылка на trello: https://trello.com/b/iPO4OqP6/school-board
+<a href="https://miro.com/app/board/o9J_kum2yiE=/">Miro</a> 
 
-Ссылка на miro: https://miro.com/app/board/o9J_kum2yiE=/ 
+<a href="https://www.figma.com/file/wPcfshBOBJT0JbfsF3YPyA/School-board?node-id=0%3A1">Figma</a>
 
-Ссылка на figma: https://www.figma.com/file/wPcfshBOBJT0JbfsF3YPyA/School-board?node-id=0%3A1
-
-Ссылка на техническое задание: 
+<a href="https://github.com/Zeleboba99/school-board/blob/master/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F/%D0%A2%D0%B5%D1%85%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5.docx">Техническое задание</a>
 
 Участники команды:
 1. Ольга Стребкова (менеджер проекта, бизнес-аналитик), группа 4.2 olyastrebkova449@gmail.com
