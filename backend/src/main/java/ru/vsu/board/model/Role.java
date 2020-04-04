@@ -14,9 +14,15 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roleSeq")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    private String name;
+    private ERole name;
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
+    @Override
+    public String toString() {
+        return name.toString();
+    }
 }

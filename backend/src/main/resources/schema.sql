@@ -1,13 +1,13 @@
-drop table if exists ROLES cascade;
-drop table if exists USERS cascade;
-drop table if exists POSTS cascade;
-drop table if exists COMMENTS cascade;
-drop table if exists USERS_ROLES cascade;
-
-drop sequence if exists COMMENT_SEQUENCE ;
-drop sequence if exists POST_SEQUENCE ;
-drop sequence if exists ROLE_SEQUENCE ;
-drop sequence if exists USER_SEQUENCE ;
+-- drop table if exists ROLES cascade;
+-- drop table if exists USERS cascade;
+-- drop table if exists POSTS cascade;
+-- drop table if exists COMMENTS cascade;
+-- drop table if exists USERS_ROLES cascade;
+--
+-- drop sequence if exists COMMENT_SEQUENCE ;
+-- drop sequence if exists POST_SEQUENCE ;
+-- drop sequence if exists ROLE_SEQUENCE ;
+-- drop sequence if exists USER_SEQUENCE ;
 
 CREATE SEQUENCE IF NOT EXISTS COMMENT_SEQUENCE START WITH 10 INCREMENT BY 1;
 CREATE SEQUENCE IF NOT EXISTS POST_SEQUENCE START WITH 10 INCREMENT BY 1;

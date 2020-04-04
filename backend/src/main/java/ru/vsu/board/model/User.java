@@ -1,10 +1,7 @@
 package ru.vsu.board.model;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -37,6 +34,14 @@ public class User {
             )
     )
     private List<Role> roles;
+
+    public User() {
+    }
+
+    public User(String username,String Password) {
+        this.username = username;
+        this.password = Password;
+    }
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
