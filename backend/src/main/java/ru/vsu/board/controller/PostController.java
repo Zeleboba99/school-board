@@ -4,33 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import ru.vsu.board.model.Post;
-import ru.vsu.board.model.User;
-import ru.vsu.board.repository.UserRepository;
+import ru.vsu.board.dto.PostRequest;
+import ru.vsu.board.dto.PostResponse;
 import ru.vsu.board.service.PostService;
 
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/posts")
 public class PostController {
     @Autowired
     private PostService postService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @GetMapping("/posts")
-    public List<Post> getAllPosts(){
+    @GetMapping("")
+    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+    public List<PostResponse> getAllPosts(){
         return postService.getAll();
     }
 
-    @PostMapping("/posts")
-    public void addPost(@RequestBody Post post){
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
+    public PostResponse getPostById(@PathVariable("id") String id){
+        return postService.getById(Long.parseLong(id));
+    }
+    @PostMapping("")
+    @PreAuthorize("hasRole('TEACHER')")
+    public void addPost(@RequestBody PostRequest post){
         String UserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(UserName).orElse(null);
-        post.setUser(user);
-        postService.saveOrUpdate(post);
+       // User user = userRepository.findByUsername(UserName).orElse(null);
+        postService.saveOrUpdate(post,UserName);
     }
 }

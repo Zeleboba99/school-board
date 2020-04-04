@@ -1,11 +1,14 @@
 package ru.vsu.board.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -18,7 +21,7 @@ public class Role {
     @Column(name = "name")
     private ERole name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
     private List<User> users;
 
     @Override

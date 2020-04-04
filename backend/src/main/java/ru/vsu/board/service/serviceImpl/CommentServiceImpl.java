@@ -2,8 +2,12 @@ package ru.vsu.board.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vsu.board.dto.CommentRequest;
+import ru.vsu.board.dto.CommentResponse;
 import ru.vsu.board.model.Comment;
 import ru.vsu.board.repository.CommentRepository;
+import ru.vsu.board.repository.PostRepository;
+import ru.vsu.board.repository.UserRepository;
 import ru.vsu.board.service.CommentService;
 
 import java.util.ArrayList;
@@ -13,12 +17,26 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PostRepository postRepository;
 
     @Override
-    public List<Comment> getAll() {
+    public List<CommentResponse> getAllByPost(Long id) {
+        List<CommentResponse> responses = new ArrayList<>();
         List<Comment> comments = new ArrayList<>();
-        commentRepository.findAll().forEach(comments::add);
-        return comments;
+        commentRepository.getCommentsByPostId(id).forEach(comments::add);
+        for (Comment comment : comments) {
+            CommentResponse commentResponse = new CommentResponse(
+                    comment.getId(),
+                    comment.getText(),
+                    comment.getUser().getUsername(),
+                    comment.getPost().getId()
+            );
+            responses.add(commentResponse);
+        }
+        return responses;
     }
 
     @Override
@@ -27,9 +45,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment saveOrUpdate(Comment comment) {
-        commentRepository.save(comment);
-        return comment;
+    public Comment saveOrUpdate(CommentRequest comment, Long post_id, String username) {
+        Comment newComment = new Comment();
+        newComment.setText(comment.getText());
+        newComment.setPost(postRepository.getOne(post_id));
+        newComment.setUser(userRepository.findByUsername(username).orElse(null));
+        commentRepository.save(newComment);
+        return newComment;
     }
 
     @Override

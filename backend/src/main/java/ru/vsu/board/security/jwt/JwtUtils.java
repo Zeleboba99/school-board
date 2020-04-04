@@ -21,8 +21,6 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken(String authentication){
-        //Это преобразование неверно!Ё
-       // User userPrincipal = (User) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject(authentication)
