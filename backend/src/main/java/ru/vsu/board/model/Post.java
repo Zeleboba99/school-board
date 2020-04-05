@@ -27,7 +27,7 @@ public class Post {
     @Column(name = "created_at")
     private Date created_at;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "post",orphanRemoval = true)
     private List<Comment> comments;
 
     @ManyToOne

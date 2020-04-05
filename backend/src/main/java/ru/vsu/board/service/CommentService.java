@@ -13,5 +13,5 @@ public interface CommentService {
 
     Comment saveOrUpdate(CommentRequest comment,Long post_id, String username);
 
-    void delete(Long id);
+    void delete(Long comment_id);
 }

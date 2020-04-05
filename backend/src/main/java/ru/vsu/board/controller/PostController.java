@@ -1,12 +1,16 @@
 package ru.vsu.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.board.dto.MessageResponse;
 import ru.vsu.board.dto.PostRequest;
 import ru.vsu.board.dto.PostResponse;
+import ru.vsu.board.model.User;
 import ru.vsu.board.service.PostService;
+import ru.vsu.board.service.UserService;
 
 import java.util.List;
 
@@ -16,6 +20,9 @@ import java.util.List;
 public class PostController {
     @Autowired
     private PostService postService;
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("")
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
@@ -34,5 +41,19 @@ public class PostController {
         String UserName = SecurityContextHolder.getContext().getAuthentication().getName();
        // User user = userRepository.findByUsername(UserName).orElse(null);
         postService.saveOrUpdate(post,UserName);
+    }
+    @DeleteMapping("/{post_id}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> deletePost(@PathVariable("post_id") String id){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User author = userService.findByUsername(username);
+        PostResponse post = postService.getById(Long.parseLong(id));
+        if(!post.getUsername().equals(username)){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You can delete only your own posts"));
+        }
+        postService.delete(Long.parseLong(id));
+        return ResponseEntity.ok(new MessageResponse("Post was deleted successfully"));
     }
 }

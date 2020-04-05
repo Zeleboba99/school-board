@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.vsu.board.dto.CommentRequest;
 import ru.vsu.board.dto.CommentResponse;
 import ru.vsu.board.model.Comment;
+import ru.vsu.board.model.ERole;
+import ru.vsu.board.model.User;
 import ru.vsu.board.repository.CommentRepository;
 import ru.vsu.board.repository.PostRepository;
 import ru.vsu.board.repository.UserRepository;
@@ -12,6 +14,7 @@ import ru.vsu.board.service.CommentService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -55,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long id) {
-        commentRepository.deleteById(id);
+    public void delete(Long comm_id) {
+        commentRepository.deleteById(comm_id);
     }
 }
