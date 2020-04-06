@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-11">
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">Учитель/Ученик</th>
+    <th scope="col">Имя Пользователя</th>
+    <th scope="col">Пароль</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users">
+    <th></th>
+    <td>{{user.username}}</td>
+    <td>{{user.password}}</td>
+    <td>
+      <a class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="setDeleted(user.id)" >Удалить</a>
+
+      <div></div>
+      <a class="btn btn-outline-success btn-sm" (click)="onEditUser(user.id)">Редактировать</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+  </div>
+  <div class="col-md-1">
+    <a class="btn btn-outline-success btn-sm" (click)="onNewUserClick()">Новый пользователь</a>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Вы уверенны, что хотите удалить пользователя?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+        <button type="button" class="btn btn-success" (click)="onDeleteUser()" >Да</button>
+      </div>
+    </div>
+  </div>
+</div>

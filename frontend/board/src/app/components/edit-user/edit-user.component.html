@@ -1,0 +1,44 @@
+<div *ngIf="!user.id; else elseBlock">
+  <h5>Новый пользователь</h5>
+  <p></p>
+  <div class="row">
+    <div class="col-md-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <input type="radio" value="student" name="role">
+        </div>
+        <span class="input-group-text">Ученик</span>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <input type="radio" value="teacher" name="role">
+        </div>
+        <span class="input-group-text">Учитель</span>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #elseBlock>
+  <h5>Редактирование пользователя</h5>
+</ng-template>
+<p></p>
+
+<div class="form-group">
+  <label for="usernameEl">Имя пользователя</label>
+  <input type="text" class="form-control" name="usernameEl" [(ngModel)]="user.username" #usernameEL="ngModel" required id="usernameEl"/>
+</div>
+<label for="password">Пароль</label>
+<div class="input-group mb-3">
+  <input type="text" class="form-control" name="passwordEl" [(ngModel)]="user.password" #passwordEl="ngModel" id="password" aria-describedby="button-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Создать пароль</button>
+  </div>
+</div>
+<div *ngIf="!user.id; else elseBlock1">
+  <button type="button" class="btn btn-outline-success btn-sm " (click)="onAddUserClick()">Добавить</button>
+</div>
+<ng-template #elseBlock1>
+  <button type="button" class="btn btn-outline-success btn-sm " (click)="onEditUserClick()">Редактировать</button>
+</ng-template>

@@ -6,6 +6,7 @@ import {PostComponent} from './components/post/post.component';
 import {EditCommentComponent} from './components/edit-comment/edit-comment.component';
 import {EditPostComponent} from './components/edit-post/edit-post.component';
 import {AdminComponent} from './components/admin/admin.component';
+import {EditUserComponent} from './components/edit-user/edit-user.component';
 
 const routes: Routes = [
   //{ path: 'login', component: LoginComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'post', component: PostComponent},
   { path: 'edit-comment', component: EditCommentComponent},
   { path: 'edit-post', component: EditPostComponent},
-  { path: 'admin', component: AdminComponent}
+  { path: 'admin', component: AdminComponent},
+  { path: 'edit-user', component: EditUserComponent}
   //{ path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 

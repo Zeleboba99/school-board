@@ -15,6 +15,8 @@ import {CommentService} from './services/comment.service';
 import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { AdminComponent } from './components/admin/admin.component';
+import {AdminService} from './services/admin.service';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { AdminComponent } from './components/admin/admin.component';
   PostComponent,
   EditCommentComponent,
   EditPostComponent,
-  AdminComponent
+  AdminComponent,
+  EditUserComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { AdminComponent } from './components/admin/admin.component';
   providers: [
     authInterceptorProviders,
     PostService,
-    CommentService
+    CommentService,
+    AdminService
   ],
   bootstrap: [AppComponent]
 })
