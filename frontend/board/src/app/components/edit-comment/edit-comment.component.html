@@ -1,0 +1,7 @@
+<form>
+  <div class="form-group">
+    <label for="commentTA">Комментарий</label>
+    <textarea class="form-control" name="comment" [(ngModel)]="text" #comment="ngModel" required id="commentTA" rows="4" placeholder="Создать комментарий"></textarea>
+  </div>
+  <button type="button" [disabled]="comment.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onPublishClick()">Опубликовать</button>
+</form>

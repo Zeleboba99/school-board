@@ -1,0 +1,12 @@
+<form>
+  <div class="form-group">
+    <label for="headerInput">Новость</label>
+    <input type="text" class="form-control" name="head" [(ngModel)]="post.header" #head="ngModel" required id="headerInput"
+           placeholder="Загаловок новости"/>
+  </div>
+  <div class="form-group">
+    <textarea class="form-control" name="postText" [(ngModel)]="post.text" #postText="ngModel" required id="postTA" rows="4" placeholder="Текст новости"></textarea>
+  </div>
+  <button *ngIf="!post.post_id" type="button" [disabled]="postText.invalid || head.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onPublishClick()">Опубликовать</button>
+  <button *ngIf="post.post_id" type="button" [disabled]="postText.invalid || head.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onEditClick()">Редактировать</button>
+</form>

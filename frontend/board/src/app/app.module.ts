@@ -12,6 +12,9 @@ import { NewsBoardComponent } from './components/news-board/news-board.component
 import {PostService} from './services/post.service';
 import { PostComponent } from './components/post/post.component';
 import {CommentService} from './services/comment.service';
+import { EditCommentComponent } from './components/edit-comment/edit-comment.component';
+import { EditPostComponent } from './components/edit-post/edit-post.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import {CommentService} from './services/comment.service';
     AppComponent,
   //  LoginComponent,
     NewsBoardComponent,
-  PostComponent
+  PostComponent,
+  EditCommentComponent,
+  EditPostComponent,
+  AdminComponent
   ],
   imports: [
     BrowserModule,

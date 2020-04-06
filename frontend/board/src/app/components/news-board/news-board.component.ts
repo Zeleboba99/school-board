@@ -25,4 +25,8 @@ export class NewsBoardComponent implements OnInit {
   onPostClick(post_id: number) {
     this.router.navigate(['post'], {queryParams: {post_id: post_id}});
   }
+
+  onAddPostClick() {
+    this.router.navigate(['edit-post']);
+  }
 }

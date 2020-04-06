@@ -47,4 +47,12 @@ export class PostComponent implements OnInit {
   onDeletePost(post_id: number) {
     this.postService.deletePostById(post_id).subscribe( res => this.router.navigate(['news-board']));
   }
+
+  onAddCommentClick() {
+    this.router.navigate(['edit-comment'], {queryParams: {post_id: this.post.post_id}});
+  }
+
+  onEditPost(post_id: number) {
+    this.router.navigate(['edit-post'], {queryParams: {post_id: post_id}});
+  }
 }
