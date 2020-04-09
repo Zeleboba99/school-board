@@ -17,6 +17,7 @@ export class EditPostComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    this.post = new Post(0, '', '', '');
     this.route.queryParams.subscribe(params => {
       const post_id = params['post_id'];
       if (post_id) {

@@ -15,11 +15,11 @@ export class NewsBoardComponent implements OnInit {
 
   ngOnInit() {
     this.postService.getAllPosts().subscribe(res => this.posts = res);
-    // mock
-    const mockPost = new Post(1, 'header', 'test of post la', 'author');
-    for (let i = 1; i <= 10; i++) {
-      this.posts.push(mockPost);
-    }
+    // // mock
+    // const mockPost = new Post(1, 'header', 'test of post la', 'author');
+    // for (let i = 1; i <= 10; i++) {
+    //   this.posts.push(mockPost);
+    // }
   }
 
   onPostClick(post_id: number) {
