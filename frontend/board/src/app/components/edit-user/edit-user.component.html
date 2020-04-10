@@ -1,11 +1,19 @@
-<div *ngIf="!user.id; else elseBlock">
-  <h5>Новый пользователь</h5>
-  <p></p>
+<div *ngIf="!user.user_id; else elseBlock">
   <div class="row">
+    <div class="col-md-11">
+      <h5>Новый пользователь</h5>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-outline-secondary btn-sm" routerLink="/admin">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row" *ngIf="user.user_id == 0">
     <div class="col-md-2">
       <div class="input-group-prepend">
         <div class="input-group-text">
-          <input type="radio" value="student" name="role">
+          <input type="radio" value="student" name="role" [(ngModel)]="role" checked>
         </div>
         <span class="input-group-text">Ученик</span>
       </div>
@@ -13,7 +21,7 @@
     <div class="col-md-1">
       <div class="input-group-prepend">
         <div class="input-group-text">
-          <input type="radio" value="teacher" name="role">
+          <input type="radio" value="teacher" name="role" [(ngModel)]="role">
         </div>
         <span class="input-group-text">Учитель</span>
       </div>
@@ -21,24 +29,40 @@
   </div>
 </div>
 <ng-template #elseBlock>
-  <h5>Редактирование пользователя</h5>
+  <div class="row">
+    <div class="col-md-11">
+      <h5>Редактирование пользователя</h5>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-outline-secondary btn-sm" routerLink="/admin">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+  </div>
 </ng-template>
 <p></p>
 
 <div class="form-group">
   <label for="usernameEl">Имя пользователя</label>
   <input type="text" class="form-control" name="usernameEl" [(ngModel)]="user.username" #usernameEL="ngModel" required id="usernameEl"/>
+  <div [hidden]="usernameEL.valid || usernameEL.untouched" class="alert alert-secondary">
+    Пожалуйста, укажите логин.
+  </div>
 </div>
 <label for="password">Пароль</label>
 <div class="input-group mb-3">
-  <input type="text" class="form-control" name="passwordEl" [(ngModel)]="user.password" #passwordEl="ngModel" id="password" aria-describedby="button-addon2">
+  <input type="text" class="form-control" name="passwordEl" [(ngModel)]="user.password" #passwordEl="ngModel" id="password" aria-describedby="button-addon2" required>
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Создать пароль</button>
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="randomPass(12, 'HH', '', 4)">Создать пароль</button>
   </div>
 </div>
-<div *ngIf="!user.id; else elseBlock1">
-  <button type="button" class="btn btn-outline-success btn-sm " (click)="onAddUserClick()">Добавить</button>
+<div [hidden]="passwordEl.valid || passwordEl.untouched" class="alert alert-secondary">
+  Пожалуйста, укажите пароль.
+</div>
+<div *ngIf="!user.user_id; else elseBlock1">
+  <button type="button" class="btn btn-outline-success btn-sm " [disabled]="usernameEL.invalid || passwordEl.invalid" (click)="onAddUserClick()">Добавить</button>
 </div>
 <ng-template #elseBlock1>
-  <button type="button" class="btn btn-outline-success btn-sm " (click)="onEditUserClick()">Редактировать</button>
+  <button type="button" class="btn btn-outline-success btn-sm " [disabled]="usernameEL.invalid || passwordEl.invalid" (click)="onEditUserClick()">Редактировать</button>
 </ng-template>
+<app-spinner></app-spinner>

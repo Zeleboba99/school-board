@@ -1,24 +1,32 @@
 <div class="row">
   <div class="col-md-11">
-<table class="table table-bordered">
+<table style="table-layout: fixed;
+    word-wrap: break-word;" class="table table-bordered">
   <thead>
   <tr>
-    <th scope="col">Учитель/Ученик</th>
-    <th scope="col">Имя Пользователя</th>
-    <th scope="col">Пароль</th>
+    <th style="width: 15%"scope="col">Учитель/Ученик</th>
+    <th style="width: 30%" scope="col">Имя Пользователя</th>
+    <th style="width: 35%"scope="col">Пароль</th>
     <th scope="col"></th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let user of users">
-    <th></th>
-    <td>{{user.username}}</td>
-    <td>{{user.password}}</td>
+    <th>
+      <div *ngIf="user.role == 'ROLE_STUDENT'">
+        Ученик
+      </div>
+      <div *ngIf="user.role == 'ROLE_TEACHER'">
+        Учитель
+      </div>
+    </th>
+    <td class="col-md-1">{{user.username}}</td>
+    <td>***********</td>
     <td>
-      <a class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="setDeleted(user.id)" >Удалить</a>
+      <a class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="setDeleted(user.user_id)" >Удалить</a>
 
       <div></div>
-      <a class="btn btn-outline-success btn-sm" (click)="onEditUser(user.id)">Редактировать</a>
+      <a class="btn btn-outline-success btn-sm" (click)="onEditUser(user.user_id)">Редактировать</a>
     </td>
   </tr>
   </tbody>
@@ -42,8 +50,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-        <button type="button" class="btn btn-success" (click)="onDeleteUser()" >Да</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onDeleteUser()" >Да</button>
       </div>
     </div>
   </div>
 </div>
+<app-spinner></app-spinner>

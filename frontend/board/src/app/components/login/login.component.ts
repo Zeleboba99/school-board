@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {User} from '../../models/user';
 import {Role} from '../../models/role.enum';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,11 @@ export class LoginComponent implements OnInit {
 
   public signInData = {username: '', password: ''};
   public serverError: any;
-  constructor(private authService: AuthService, private router: Router, private cookieService: CookieService) { }
+  constructor(private authService: AuthService,
+              private router: Router,
+              private cookieService: CookieService,
+              private spinnerService: NgxSpinnerService
+  ) { }
 
   private static chooseRole(roles): Role {
     let role = Role.STUDENT;
@@ -27,13 +32,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.userLoggedIn.getValue()) {
-      this.router.navigate(['/news-board']);
-    }
+    const user = this.authService.userLoggedIn.getValue();
+    this.redirectByRole(user);
   }
 
   login() {
     // TODO validation and compare passwords
+    this.spinnerService.show();
     this.authService.login(this.signInData)
       .subscribe(
         data => {
@@ -44,9 +49,22 @@ export class LoginComponent implements OnInit {
             this.cookieService.put('role', user.role);
             console.log(user.role);
             this.authService.userLoggedIn.next(user);
-            this.router.navigate(['/news-board']);
+            this.redirectByRole(user);
           }},
-        error => this.serverError = error.error.message
+        error => {
+          this.spinnerService.hide();
+          this.serverError = error.error.message;
+        }
       );
+  }
+
+  redirectByRole(user: User) {
+    if (user !== null) {
+      if (user.role === Role.TEACHER || user.role === Role.STUDENT) {
+        this.router.navigate(['/news-board']);
+      } else if (user.role === Role.ADMIN) {
+        this.router.navigate(['/admin']);
+      }
+    }
   }
 }

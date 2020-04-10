@@ -1,12 +1,28 @@
+<div class="row">
+  <div class="col-md-11">
+    <h5>Новость</h5>
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-outline-secondary btn-sm" routerLink="/news-board" >
+      <i class="fas fa-arrow-left"></i>
+    </button>
+  </div>
+</div>
 <form>
   <div class="form-group">
-    <label for="headerInput">Новость</label>
     <input type="text" class="form-control" name="head" [(ngModel)]="post.header" #head="ngModel" required id="headerInput"
            placeholder="Загаловок новости"/>
+    <div [hidden]="head.valid || head.untouched" class="alert alert-secondary">
+      Пожалуйста, укажите заголовок новости.
+    </div>
   </div>
   <div class="form-group">
     <textarea class="form-control" name="postText" [(ngModel)]="post.text" #postText="ngModel" required id="postTA" rows="4" placeholder="Текст новости"></textarea>
+    <div [hidden]="postText.valid || postText.untouched" class="alert alert-secondary">
+      Пожалуйста, укажите новость.
+    </div>
   </div>
   <button *ngIf="!post.post_id" type="button" [disabled]="postText.invalid || head.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onPublishClick()">Опубликовать</button>
   <button *ngIf="post.post_id" type="button" [disabled]="postText.invalid || head.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onEditClick()">Редактировать</button>
 </form>
+<app-spinner></app-spinner>

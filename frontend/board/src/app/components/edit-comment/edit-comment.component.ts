@@ -28,4 +28,8 @@ export class EditCommentComponent implements OnInit {
       res => this.router.navigate(['post'], {queryParams: {post_id: this.post_id}})
     );
   }
+
+  onBackClick() {
+    this.router.navigate(['post'], {queryParams: {post_id: this.post_id}});
+  }
 }

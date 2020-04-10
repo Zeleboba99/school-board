@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminService} from '../../services/admin.service';
+import {Role} from '../../models/role.enum';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin',
@@ -14,17 +16,21 @@ export class AdminComponent implements OnInit {
   public deleted_id = 0;
   constructor(private adminService: AdminService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private spinnerService: NgxSpinnerService
+  ) { }
 
   ngOnInit() {
+    this.spinnerService.show();
+    // setTimeout(() => {
+    //   this.spinnerService.hide();
+    // }, 1000);
     this.adminService.getAllUsers().subscribe(
-      res => this.users = res
+      res => {
+        this.users = res.filter(x => (x.role !== Role.ADMIN ));
+        this.spinnerService.hide();
+      }
     );
-    // mock
-    const user = new User(1, 'username', 'password', 'student');
-    for (let i = 1; i <= 10; i++) {
-      this.users.push(user);
-    }
   }
 
   onDeleteUser() {
