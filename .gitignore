@@ -30,5 +30,3 @@ build/
 ### VS Code ###
 .vscode/
 
-**/application-dev.yaml
-**/populate2_db.sql
