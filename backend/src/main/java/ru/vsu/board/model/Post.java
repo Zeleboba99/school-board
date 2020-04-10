@@ -25,7 +25,7 @@ public class Post {
     private String text;
 
     @Column(name = "created_at")
-    private Date created_at;
+    private Date createdAt;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "post",orphanRemoval = true)
     private List<Comment> comments;

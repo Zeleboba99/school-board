@@ -11,6 +11,7 @@ import ru.vsu.board.repository.UserRepository;
 import ru.vsu.board.service.PostService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,13 +24,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostResponse> getAll() {
         List<PostResponse> responses = new ArrayList<>();
-        List<Post> posts = postRepository.findAll();
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         for (Post post : posts) {
             PostResponse postResponse = new PostResponse(
                     post.getId(),
                     post.getHeader(),
                     post.getText(),
-                    post.getUser().getUsername());
+                    post.getUser().getUsername(),
+                    post.getCreatedAt());
             responses.add(postResponse);
         }
 
@@ -47,17 +49,19 @@ public class PostServiceImpl implements PostService {
                 post.getId(),
                 post.getHeader(),
                 post.getText(),
-                post.getUser().getUsername()
+                post.getUser().getUsername(),
+                post.getCreatedAt()
         );
     }
 
     @Override
-    public Post saveOrUpdate(PostRequest post, String username) {
+    public Post create(PostRequest post, String username) {
         User user = userRepository.findByUsername(username).orElse(null);
         Post newPost = new Post();
         newPost.setHeader(post.getHeader());
         newPost.setText(post.getText());
         newPost.setUser(user);
+        newPost.setCreatedAt(new Date());
         postRepository.save(newPost);
         return newPost;
     }
@@ -65,5 +69,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public void delete(Long id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(Long post_id, PostRequest post, String userName) {
+        User user = userRepository.findByUsername(userName).orElse(null);
+        Post existingPost = postRepository.findById(post_id).orElse(new Post());
+        existingPost.setHeader(post.getHeader());
+        existingPost.setText(post.getText());
+        existingPost.setCreatedAt(new Date());
+        existingPost.setUser(user);
+        postRepository.save(existingPost);
     }
 }

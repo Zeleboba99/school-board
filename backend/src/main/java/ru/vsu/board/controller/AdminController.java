@@ -1,6 +1,7 @@
 package ru.vsu.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,7 @@ import java.util.Set;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/admin/users")
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     @Autowired
     private UserService userService;
@@ -37,6 +38,21 @@ public class AdminController {
     @GetMapping("")
     public List<UserResponse> getUsers() {
         return userService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id){
+        User user = userService.findById(id);
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: User is not exists!"));
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUser_id(user.getId());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setPassword(user.getPassword());
+        userResponse.setRole(user.getRoles().get(0).getName().toString());
+        return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -90,11 +106,11 @@ public class AdminController {
     public ResponseEntity<?> updateUser(@Valid @RequestBody SignupRequest signUpRequest, @PathVariable("id") String id) {
         //Person's role can't be changed
         User user = userService.findById(Long.parseLong(id));
-        if(userService.existsByUsername(signUpRequest.getUsername()) || user ==null){
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
+//        if(userService.existsByUsername(signUpRequest.getUsername()) || user ==null){
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(new MessageResponse("Error: Username is already taken!"));
+//        }
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(signUpRequest.getPassword());
         userService.save(user);

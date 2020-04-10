@@ -12,7 +12,9 @@ public interface PostService {
 
     PostResponse getById(Long id);
 
-    Post saveOrUpdate(PostRequest post, String username);
+    Post create(PostRequest post, String username);
 
     void delete(Long id);
+
+    void update(Long post_id, PostRequest post, String userName);
 }

@@ -2,7 +2,6 @@ package ru.vsu.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.board.dto.MessageResponse;
@@ -25,25 +24,34 @@ public class PostController {
 
 
     @GetMapping("")
-    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+//    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public List<PostResponse> getAllPosts(){
         return postService.getAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
+//    @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
     public PostResponse getPostById(@PathVariable("id") String id){
         return postService.getById(Long.parseLong(id));
     }
     @PostMapping("")
-    @PreAuthorize("hasRole('TEACHER')")
+//    @PreAuthorize("hasRole('TEACHER')")
     public void addPost(@RequestBody PostRequest post){
         String UserName = SecurityContextHolder.getContext().getAuthentication().getName();
        // User user = userRepository.findByUsername(UserName).orElse(null);
-        postService.saveOrUpdate(post,UserName);
+        postService.create(post,UserName);
     }
+
+    @PutMapping("/{post_id}")
+//    @PreAuthorize("hasRole('TEACHER')")
+    public void editPost(@PathVariable("post_id") Long post_id, @RequestBody PostRequest post){
+        String UserName = SecurityContextHolder.getContext().getAuthentication().getName();
+        // User user = userRepository.findByUsername(UserName).orElse(null);
+        postService.update(post_id, post,UserName);
+    }
+
     @DeleteMapping("/{post_id}")
-    @PreAuthorize("hasRole('TEACHER')")
+//    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> deletePost(@PathVariable("post_id") String id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User author = userService.findByUsername(username);
