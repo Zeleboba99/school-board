@@ -26,6 +26,10 @@ export class PostService {
     return this.http.post(this.base_url, {header, text}, this.httpOptions);
   }
 
+  updatePost(post_id: number, header: string, text: string) {
+    return this.http.put(this.base_url + '/' + post_id, {header, text}, this.httpOptions);
+  }
+
   deletePostById(post_id: number) {
     return this.http.delete(this.base_url + '/' + post_id);
   }

@@ -5,6 +5,7 @@ export class Post {
   public header: string;
   public text: string;
   public username: string;
+  public created_at: Date;
   public comments: Comment[] = [];
 
 

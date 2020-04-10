@@ -1,15 +1,24 @@
 <div class="mx-auto">
   <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <a class="navbar-brand" href="/">Learning portal</a>
+    <div *ngIf="user == null">
+      <a class="navbar-brand" routerLink="/login">Школьная новостная доска</a>
+    </div>
+    <div *ngIf="user != null && (user.role == 'ROLE_STUDENT' || user.role == 'ROLE_TEACHER')">
+    <a class="navbar-brand" routerLink="/news-board">Школьная новостная доска</a>
+    </div>
+    <div *ngIf="user != null && (user.role == 'ROLE_ADMIN')">
+      <a class="navbar-brand" routerLink="/admin">Школьная новостная доска</a>
+    </div>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
       <ul class="navbar-nav ">
-        <li class="nav-item" *ngIf="user!=null">
+        <li class="nav-item text-light" *ngIf="user!=null">
           {{user.username}}
-            <a class="nav-link" (click)="logout()">Sign out</a>
+            <a class="nav-link text-light" (click)="logout()">Выйти</a>
         </li>
       </ul>
     </div>

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {User} from '../models/user';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
 import {environment} from '../../environments/environment';
+import {Role} from '../models/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,14 @@ export class AuthService {
               private cookieService: CookieService) {
     if (this.cookieService.get('username')) {
           const username = this.cookieService.get('username');
-          this.userLoggedIn.next(new User( 0, username, '', ''));
+          const role = this.cookieService.get('role');
+          let erole = Role.STUDENT;
+          if (role === Role.ADMIN) {
+            erole = Role.ADMIN;
+          } else if (role === Role.TEACHER) {
+            erole = Role.TEACHER;
+          }
+          this.userLoggedIn.next(new User( 0, username, '', erole));
     }
   }
 

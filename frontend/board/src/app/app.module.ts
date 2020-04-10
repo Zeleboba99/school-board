@@ -22,34 +22,51 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import {AuthenticationInterceptor} from './services/interceptors/authentication-interceptor';
 import { LoginComponent } from './components/login/login.component';
 import {AuthService} from './services/auth.service';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import {NgxSpinnerModule, NgxSpinnerService} from 'ngx-spinner';
+import {MainGuard} from './guards/main.guard';
+import {StudentGuard} from './guards/student.guard';
+import {TeacherGuard} from './guards/teacher.guard';
+import {AdminGuard} from './guards/admin.guard';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
 
+// the second parameter 'fr-FR' is optional
+registerLocaleData(localeRu, 'ru');
 
 
 @NgModule({
   declarations: [
     AppComponent,
-  //  LoginComponent,
     NewsBoardComponent,
-  PostComponent,
-  EditCommentComponent,
-  EditPostComponent,
-  AdminComponent,
-  EditUserComponent,
-  LoginComponent
+    PostComponent,
+    EditCommentComponent,
+    EditPostComponent,
+    AdminComponent,
+    EditUserComponent,
+    LoginComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxSpinnerModule
   ],
   providers: [
-    //authInterceptorProviders,
     { provide: CookieService, useFactory: cookieServiceFactory },
+    NgxSpinnerService,
     PostService,
     CommentService,
     AdminService,
     AuthService,
+    MainGuard,
+    StudentGuard,
+    TeacherGuard,
+    AdminGuard,
+    { provide: LOCALE_ID, useValue: 'ru' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
