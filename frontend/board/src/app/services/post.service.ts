@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Post} from '../models/post';
 import {Observable} from 'rxjs/Observable';
+import {PagePost} from '../models/page-post';
 
 @Injectable()
 export class PostService {
@@ -14,8 +15,8 @@ export class PostService {
   };
   constructor(private http: HttpClient) { }
 
-  getAllPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.base_url);
+  getAllPosts(page: number, size: number): Observable<PagePost> {
+    return this.http.get<PagePost>(this.base_url + '/?page=' + page + '&size=' + size);
   }
 
   getPostById(post_id: number): Observable<Post> {

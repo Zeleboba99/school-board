@@ -1,6 +1,9 @@
 package ru.vsu.board.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.vsu.board.dto.PostRequest;
 import ru.vsu.board.dto.PostResponse;
@@ -13,6 +16,7 @@ import ru.vsu.board.service.PostService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -22,20 +26,21 @@ public class PostServiceImpl implements PostService {
     private UserRepository userRepository;
 
     @Override
-    public List<PostResponse> getAll() {
+    public Page<PostResponse> getAll(int page, int size) {
         List<PostResponse> responses = new ArrayList<>();
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-        for (Post post : posts) {
-            PostResponse postResponse = new PostResponse(
-                    post.getId(),
-                    post.getHeader(),
-                    post.getText(),
-                    post.getUser().getUsername(),
-                    post.getCreatedAt());
-            responses.add(postResponse);
-        }
-
-        return responses;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageRequest);
+        int totalElements = (int) posts.getTotalElements();
+        return new PageImpl<>(
+                posts.stream()
+                .map(post -> new PostResponse(
+                        post.getId(),
+                        post.getHeader(),
+                        post.getText(),
+                        post.getUser().getUsername(),
+                        post.getCreatedAt()))
+                .collect(Collectors.toList())
+                ,pageRequest,totalElements);
     }
 
     @Override

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Comment} from '../models/comment';
+import {PageComment} from '../models/page-comment';
 
 @Injectable()
 export class CommentService {
@@ -14,8 +15,8 @@ export class CommentService {
   };
   constructor(private http: HttpClient) { }
 
-  getAllCommentsByPostId(post_id: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(this.base_url + '/posts/' + post_id + '/comments');
+  getAllCommentsByPostId(post_id: number, page: number, size: number): Observable<PageComment> {
+    return this.http.get<PageComment>(this.base_url + '/posts/' + post_id + '/comments/?page=' + page + '&size=' + size);
   }
 
   createComment(post_id: number, text: string) {

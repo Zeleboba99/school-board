@@ -44,4 +44,14 @@
     </button>
   </div>
 </div>
+<div class="container " align="center" style="margin-top: 20px">
+  <div class="col -lg-12" align="center">
+    <nav aria-label="..." style="text-align: center">
+      <ul class="pagination justify-content-center">
+        <li *ngFor="let page of ' '.repeat(postPage.totalPages).split(''), let i = index " (click)="onPageSelect(i)"
+            [class.active]="i === selectedPage" class="page-item"><a class="page-link">{{i + 1}}</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
 <app-spinner></app-spinner>

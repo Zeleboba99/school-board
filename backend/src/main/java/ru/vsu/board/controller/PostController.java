@@ -1,6 +1,7 @@
 package ru.vsu.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,8 @@ public class PostController {
 
     @GetMapping("")
 //    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
-    public List<PostResponse> getAllPosts(){
-        return postService.getAll();
+    public Page<PostResponse> getAllPosts(@RequestParam(defaultValue = "0") int page, @RequestParam("size") int size){
+        return postService.getAll(page,size);
     }
 
     @GetMapping("/{id}")

@@ -1,6 +1,7 @@
 package ru.vsu.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,8 +28,8 @@ public class CommentController {
 
     @GetMapping("/posts/{post_id}/comments")
 //    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
-    public List<CommentResponse> getAllComments(@PathVariable("post_id") String post_id){
-        return commentService.getAllByPost(Long.parseLong(post_id));
+    public Page<CommentResponse> getAllComments(@PathVariable("post_id") String post_id,@RequestParam(defaultValue = "0") int page, @RequestParam("size") int size){
+        return commentService.getAllByPost(page,size,Long.parseLong(post_id));
     }
 
     @PostMapping("/posts/{post_id}/comments")

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostService} from '../../services/post.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Post} from '../../models/post';
 import {CommentService} from '../../services/comment.service';
-import {Comment} from '../../models/comment';
 import {AuthService} from '../../services/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {PageComment} from '../../models/page-comment';
 
 @Component({
   selector: 'app-post',
@@ -13,7 +13,10 @@ import {NgxSpinnerService} from 'ngx-spinner';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-
+  public commentPage: PageComment;
+  selectedPage = 0;
+  size = 5;
+  page = 1;
   public post: Post;
   public user;
   public deletedCommentId;
@@ -37,10 +40,12 @@ export class PostComponent implements OnInit {
       if (post_id !== null) {
         this.postService.getPostById(post_id).subscribe(res => {
           this.post = res;
-          this.commentService.getAllCommentsByPostId(post_id).subscribe(x => {
-            this.post.comments = x;
-            this.spinnerService.hide();
-          });
+          // this.commentService.getAllCommentsByPostId(post_id).subscribe(x => {
+          //   this.post.comments = x;
+          //
+          // });
+          this.getPageComment(post_id, this.selectedPage, this.size);
+          this.spinnerService.hide();
         });
       }
     });
@@ -51,6 +56,21 @@ export class PostComponent implements OnInit {
     // for (let i = 0; i <= 5; i++) {
     //   this.post.comments.push(mockComment);
     // }
+  }
+
+  getPageComment(post_id: number , page: number, size: number): void {
+    this.commentService.getAllCommentsByPostId(post_id, page, size)
+      // tslint:disable-next-line:no-shadowed-variable
+      .subscribe(page => {
+        this.commentPage = page;
+        this.post.comments = this.commentPage.content;
+      });
+  }
+
+  onPageSelect(page: number): void {
+    console.log('selected page : ' + page);
+    this.selectedPage = page;
+    this.getPageComment(this.post.post_id, page, this.size);
   }
 
   onDeleteComment(comment_id: number) {

@@ -1,6 +1,7 @@
 package ru.vsu.board.service;
 
 
+import org.springframework.data.domain.Page;
 import ru.vsu.board.dto.PostRequest;
 import ru.vsu.board.dto.PostResponse;
 import ru.vsu.board.model.Post;
@@ -8,7 +9,7 @@ import ru.vsu.board.model.Post;
 import java.util.List;
 
 public interface PostService {
-    List<PostResponse> getAll();
+    Page<PostResponse> getAll(int page, int size);
 
     PostResponse getById(Long id);
 
