@@ -1,5 +1,6 @@
 package ru.vsu.board.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.Set;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/admin/users")
+@Api
 //@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     @Autowired
