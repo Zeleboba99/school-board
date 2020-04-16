@@ -21,6 +21,7 @@ export class PostComponent implements OnInit {
   public user;
   public deletedCommentId;
   public deletedPostId;
+  public serverError: any;
   constructor(private postService: PostService,
               private router: Router,
               private route: ActivatedRoute,
@@ -40,22 +41,18 @@ export class PostComponent implements OnInit {
       if (post_id !== null) {
         this.postService.getPostById(post_id).subscribe(res => {
           this.post = res;
-          // this.commentService.getAllCommentsByPostId(post_id).subscribe(x => {
-          //   this.post.comments = x;
-          //
-          // });
           this.getPageComment(post_id, this.selectedPage, this.size);
           this.spinnerService.hide();
+        },
+          error => {
+          this.spinnerService.hide();
+          this.serverError = 'Новость не найдена';
+          setTimeout(() => {
+            this.router.navigate(['news-board']);
+          }, 1000);
         });
       }
     });
-    // // mock
-    // this.post = new Post(1, 'header', 'test of post la', 'author');
-    // // mock
-    // const mockComment = new Comment(1, 'it`s a comment', 'comment`s author', 1);
-    // for (let i = 0; i <= 5; i++) {
-    //   this.post.comments.push(mockComment);
-    // }
   }
 
   getPageComment(post_id: number , page: number, size: number): void {
@@ -90,13 +87,16 @@ export class PostComponent implements OnInit {
   }
 
   onAgreeDeletePost() {
-    this.postService.deletePostById(this.deletedPostId).subscribe( res => this.router.navigate(['news-board']));
+    this.postService.deletePostById(this.deletedPostId).subscribe( res => this.router.navigate(['news-board']),
+      error => this.serverError = 'Ошибка при удалении новости');
   }
 
   onAgreeDeleteComment() {
     this.commentService.deleteComment(this.post.post_id, this.deletedCommentId).subscribe(
       res =>  this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-        this.router.navigate(['post'], {queryParams: {post_id: this.post.post_id}}))
+        this.router.navigate(['post'], {queryParams: {post_id: this.post.post_id}})),
+      error => {this.serverError = 'Ошибка при удалении комментария';
+      console.log(this.serverError); }
     );
   }
 }

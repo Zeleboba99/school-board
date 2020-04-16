@@ -15,6 +15,7 @@ export class EditUserComponent implements OnInit {
 
   public user: User;
   public role = 'student';
+  public serverError = '';
   constructor(private adminService: AdminService,
               private route: ActivatedRoute,
               private router: Router,
@@ -26,7 +27,7 @@ export class EditUserComponent implements OnInit {
     let user_id = 0;
     this.route.queryParams.subscribe(params => {
       user_id = params['user_id'];
-      if (user_id !== 0) {
+      if (user_id && user_id !== 0) {
         // this.spinnerService.show();
         // setTimeout(() => {
         //   this.spinnerService.hide();
@@ -35,7 +36,15 @@ export class EditUserComponent implements OnInit {
           this.user = res;
           this.user.password = '';
           this.spinnerService.hide();
-        });
+        },
+          error => {
+          this.serverError = 'Пользователь не найден';
+          setTimeout(() => {
+            this.router.navigate(['admin']);
+          }, 1000);
+          this.spinnerService.hide();
+          }
+        );
       }
     });
   }
@@ -48,13 +57,15 @@ export class EditUserComponent implements OnInit {
       this.user.role = Role.TEACHER;
     }
     this.adminService.createNewUser(this.user.username, [this.user.role], this.user.password).subscribe(
-      res => this.router.navigate(['/admin'])
+      res => this.router.navigate(['/admin']),
+      error => this.serverError = 'Не удалось добавить пользователя'
     );
   }
 
   onEditUserClick() {
     this.adminService.updateUser(this.user.user_id, this.user.username, [this.user.role], this.user.password).subscribe(
-      res => this.router.navigate(['/admin'])
+      res => this.router.navigate(['/admin']),
+      error => this.serverError = 'Не удалось отредактировать данные пользователя'
     );
   }
   randomPass (length, addUpper, addSymbols, addNums) {

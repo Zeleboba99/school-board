@@ -8,6 +8,8 @@
     </button>
   </div>
 </div>
+<div class="alert alert-danger" *ngIf="serverError=='Новость не найдена'">Новость не найдена</div>
+<div class="alert alert-danger" *ngIf="serverError && serverError!='Новость не найдена'">{{serverError}}</div>
 <ul class="list-group">
   <li class="list-group-item">
     <div class="row">
@@ -51,7 +53,7 @@
     </div>
   </li>
 </ul>
-<ul class="list-group">
+<ul *ngIf="post" class="list-group">
   <li class="list-group-item" *ngFor="let comment of post.comments" >
     <div class="row">
       <div class="col-md-11">

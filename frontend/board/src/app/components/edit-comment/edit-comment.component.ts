@@ -12,6 +12,7 @@ export class EditCommentComponent implements OnInit {
 
   public post_id: number;
   public text = '';
+  public serverError: any;
   constructor(private postService: PostService,
               private router: Router,
               private route: ActivatedRoute,
@@ -25,7 +26,10 @@ export class EditCommentComponent implements OnInit {
 
   onPublishClick() {
     this.commentService.createComment(this.post_id, this.text).subscribe(
-      res => this.router.navigate(['post'], {queryParams: {post_id: this.post_id}})
+      res => this.router.navigate(['post'], {queryParams: {post_id: this.post_id}}),
+      error => {this.serverError = 'Ошибка при добавлении комментария';
+      setTimeout(() => this.router.navigate(['news-board']), 1000);
+      }
     );
   }
 

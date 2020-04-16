@@ -14,6 +14,7 @@ export class AdminComponent implements OnInit {
 
   public users: User[] = [];
   public deleted_id = 0;
+  public serverError = '';
   constructor(private adminService: AdminService,
               private router: Router,
               private route: ActivatedRoute,
@@ -36,7 +37,8 @@ export class AdminComponent implements OnInit {
   onDeleteUser() {
     this.adminService.deleteUser(this.deleted_id).subscribe(
       res =>  this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-        this.router.navigate(['admin']))
+        this.router.navigate(['admin'])),
+      error => this.serverError = 'Не удалось удалить пользователя'
     );
   }
 

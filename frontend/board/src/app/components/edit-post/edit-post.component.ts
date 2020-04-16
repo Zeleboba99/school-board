@@ -13,6 +13,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 export class EditPostComponent implements OnInit {
 
   public post: Post;
+  public serverError: any;
   constructor(private postService: PostService,
               private route: ActivatedRoute,
               private router: Router,
@@ -25,13 +26,20 @@ export class EditPostComponent implements OnInit {
       const post_id = params['post_id'];
       if (post_id) {
         this.spinnerService.show();
-        setTimeout(() => {
-          this.spinnerService.hide();
-        }, 1000);
+        // setTimeout(() => {
+        //   this.spinnerService.hide();
+        // }, 1000);
         this.postService.getPostById(post_id).subscribe(res => {
           this.post = res;
           this.spinnerService.hide();
-        });
+        },
+          error => {
+          this.serverError = 'Ошибка при загрузке новости';
+          setTimeout(() => {
+            this.router.navigate(['news-board']);
+          }, 1000);
+          }
+        );
       }
     });
   }
@@ -41,6 +49,12 @@ export class EditPostComponent implements OnInit {
     this.postService.createPost(this.post.header, this.post.text).subscribe(
       res => {
         this.router.navigate(['news-board']);
+      },
+      error => {
+        this.serverError = 'Ошибка при создании новости';
+        setTimeout(() => {
+          this.router.navigate(['news-board']);
+        }, 1000);
       }
     );
   }
@@ -50,6 +64,12 @@ export class EditPostComponent implements OnInit {
     this.postService.updatePost(this.post.post_id, this.post.header, this.post.text).subscribe(
       res => {
         this.router.navigate(['news-board']);
+      },
+      error => {
+        this.serverError = 'Ошибка при редактировании новости';
+        setTimeout(() => {
+          this.router.navigate(['news-board']);
+        }, 1000);
       }
     );
   }

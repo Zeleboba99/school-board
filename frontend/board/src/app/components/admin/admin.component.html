@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-md-11">
-<table style="table-layout: fixed;
+    <div *ngIf="serverError" class="alert alert-danger">{{serverError}}</div>
+    <table style="table-layout: fixed;
     word-wrap: break-word;" class="table table-bordered">
   <thead>
   <tr>

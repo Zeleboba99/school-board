@@ -8,6 +8,7 @@
     </button>
   </div>
 </div>
+<div class="alert alert-danger" *ngIf="serverError">{{serverError}}</div>
 <form>
   <div class="form-group">
     <input type="text" class="form-control" name="head" [(ngModel)]="post.header" #head="ngModel" required id="headerInput"

@@ -53,7 +53,8 @@ export class LoginComponent implements OnInit {
           }},
         error => {
           this.spinnerService.hide();
-          this.serverError = error.error.message;
+          this.serverError = 'Данные некорректны';
+          // this.serverError = error.error.message;
         }
       );
   }

@@ -9,6 +9,7 @@
       </button>
     </div>
   </div>
+  <div class="alert alert-danger" *ngIf="serverError">{{serverError}}</div>
   <div class="row" *ngIf="user.user_id == 0">
     <div class="col-md-2">
       <div class="input-group-prepend">
