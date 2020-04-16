@@ -29,19 +29,19 @@ public class CommentController {
     private UserService userService;
 
     @GetMapping("/posts/{post_id}/comments")
-//    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public Page<CommentResponse> getAllComments(@PathVariable("post_id") String post_id,@RequestParam(defaultValue = "0") int page, @RequestParam("size") int size){
         return commentService.getAllByPost(page,size,Long.parseLong(post_id));
     }
 
     @PostMapping("/posts/{post_id}/comments")
-//    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public void addComment(@PathVariable("post_id") String id,@RequestBody CommentRequest comment){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         commentService.saveOrUpdate(comment,Long.parseLong(id),username);
     }
     @DeleteMapping("/posts/{post_id}/comments/{comment_id}")
-//    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public ResponseEntity<?> deleteComment(@PathVariable("post_id") String id, @PathVariable("comment_id") String comment_id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User author = userService.findByUsername(username);

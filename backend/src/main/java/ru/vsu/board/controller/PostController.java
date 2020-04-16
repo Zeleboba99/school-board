@@ -3,7 +3,9 @@ package ru.vsu.board.controller;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.board.dto.MessageResponse;
@@ -27,18 +29,25 @@ public class PostController {
 
 
     @GetMapping("")
-//    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
+    @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public Page<PostResponse> getAllPosts(@RequestParam(defaultValue = "0") int page, @RequestParam("size") int size){
         return postService.getAll(page,size);
     }
 
     @GetMapping("/{id}")
-//    @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
-    public PostResponse getPostById(@PathVariable("id") String id){
-        return postService.getById(Long.parseLong(id));
+    @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
+    public ResponseEntity<?> getPostById(@PathVariable("id") String id){
+        PostResponse postResponse = postService.getById(Long.parseLong(id));
+        if (postResponse == null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Post is not exists!"));
+        }
+        return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
+
     @PostMapping("")
-//    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     public void addPost(@RequestBody PostRequest post){
         String UserName = SecurityContextHolder.getContext().getAuthentication().getName();
        // User user = userRepository.findByUsername(UserName).orElse(null);
@@ -46,7 +55,7 @@ public class PostController {
     }
 
     @PutMapping("/{post_id}")
-//    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     public void editPost(@PathVariable("post_id") Long post_id, @RequestBody PostRequest post){
         String UserName = SecurityContextHolder.getContext().getAuthentication().getName();
         // User user = userRepository.findByUsername(UserName).orElse(null);
@@ -54,7 +63,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{post_id}")
-//    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> deletePost(@PathVariable("post_id") String id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User author = userService.findByUsername(username);

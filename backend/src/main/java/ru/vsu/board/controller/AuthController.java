@@ -36,7 +36,6 @@ public class AuthController {
     @Autowired
      AuthenticationManager authenticationManager;
 
-    //TODO remove repository
     @Autowired
     private UserService userService;
 
@@ -71,7 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
