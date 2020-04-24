@@ -23,7 +23,7 @@
       Пожалуйста, укажите новость.
     </div>
   </div>
-  <button *ngIf="!post.post_id" type="button" [disabled]="postText.invalid || head.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onPublishClick()">Опубликовать</button>
+  <button *ngIf="!post.post_id" type="button" [disabled]="postText.invalid || head.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onPublishClick()" onClick = "yaCounter62161168.reachGoal('post');">Опубликовать</button>
   <button *ngIf="post.post_id" type="button" [disabled]="postText.invalid || head.invalid" class="btn btn-outline-success btn-sm btn-block" (click)="onEditClick()">Редактировать</button>
 </form>
 <app-spinner></app-spinner>
