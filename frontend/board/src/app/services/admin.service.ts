@@ -19,11 +19,11 @@ export class AdminService {
   }
 
   createNewUser(username: string, roles: string[], password: string) {
-    return this.http.post(this.base_url, {username, roles, password}, this.httpOptions);
+    return this.http.post(this.base_url, {username, role: roles, password}, this.httpOptions);
   }
 
   updateUser(user_id: number, username: string, roles: string[], password: string) {
-    return this.http.put(this.base_url + '/' + user_id, {username, roles, password}, this.httpOptions);
+    return this.http.put(this.base_url + '/' + user_id, {username, role: roles, password}, this.httpOptions);
   }
 
   deleteUser(user_id: number) {
