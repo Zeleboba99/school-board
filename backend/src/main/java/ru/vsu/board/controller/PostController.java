@@ -1,6 +1,7 @@
 package ru.vsu.board.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/posts")
-@Api
+@Api(value = "schoolboard", description = "Operations with posts")
 public class PostController {
     @Autowired
     private PostService postService;
@@ -28,12 +29,14 @@ public class PostController {
     private UserService userService;
 
 
+    @ApiOperation(value = "Find all posts")
     @GetMapping("")
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public Page<PostResponse> getAllPosts(@RequestParam(defaultValue = "0") int page, @RequestParam("size") int size){
         return postService.getAll(page,size);
     }
 
+    @ApiOperation(value = "Find post with id")
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
     public ResponseEntity<?> getPostById(@PathVariable("id") String id){
@@ -46,6 +49,7 @@ public class PostController {
         return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
 
+    @ApiOperation(value="Add new post")
     @PostMapping("")
     @PreAuthorize("hasRole('TEACHER')")
     public void addPost(@RequestBody PostRequest post){
@@ -54,6 +58,7 @@ public class PostController {
         postService.create(post,UserName);
     }
 
+    @ApiOperation(value="Edit post with post_id")
     @PutMapping("/{post_id}")
     @PreAuthorize("hasRole('TEACHER')")
     public void editPost(@PathVariable("post_id") Long post_id, @RequestBody PostRequest post){
@@ -62,6 +67,7 @@ public class PostController {
         postService.update(post_id, post,UserName);
     }
 
+    @ApiOperation(value="Delete post with post_id")
     @DeleteMapping("/{post_id}")
     @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> deletePost(@PathVariable("post_id") String id){

@@ -1,6 +1,7 @@
 package ru.vsu.board.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-@Api
+@Api(value = "schoolboard", description = "Controller for authentication and registration")
 public class AuthController {
     @Autowired
      AuthenticationManager authenticationManager;
@@ -49,6 +50,7 @@ public class AuthController {
      JwtUtils jwtUtils;
 
 
+    @ApiOperation(value = "Authenticate user, that already registered")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -69,6 +71,8 @@ public class AuthController {
                 roles));
     }
 
+    @Deprecated
+    @ApiOperation(value = "Register new user")
     @PostMapping("/signup")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {

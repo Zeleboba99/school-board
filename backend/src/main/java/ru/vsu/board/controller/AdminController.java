@@ -1,11 +1,11 @@
 package ru.vsu.board.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.board.dto.MessageResponse;
@@ -25,7 +25,7 @@ import java.util.Set;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/admin/users")
-@Api
+@Api(value = "schoolboard", description = "Operations that admin is able to do in system")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     @Autowired
@@ -37,11 +37,13 @@ public class AdminController {
     @Autowired
     PasswordEncoder encoder;
 
+    @ApiOperation(value = "View a list of all users")
     @GetMapping("")
     public List<UserResponse> getUsers() {
         return userService.findAll();
     }
 
+    @ApiOperation(value="Search user by his ID")
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id){
         User user = userService.findById(id);
@@ -57,6 +59,7 @@ public class AdminController {
         return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Register new user in system")
     @PostMapping("")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
@@ -104,6 +107,7 @@ public class AdminController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    @ApiOperation(value = "Update information about user with id")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@Valid @RequestBody SignupRequest signUpRequest, @PathVariable("id") String id) {
         //Person's role can't be changed
@@ -119,6 +123,7 @@ public class AdminController {
         return ResponseEntity.ok(new MessageResponse("User was updated successfully"));
     }
 
+    @ApiOperation(value = "Delete user with id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
         userService.delete(Long.parseLong(id));

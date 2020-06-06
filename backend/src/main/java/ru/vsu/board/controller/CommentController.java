@@ -1,6 +1,7 @@
 package ru.vsu.board.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -21,25 +22,28 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
-@Api
+@Api(value = "schoolboard", description = "Operations with comments")
 public class CommentController {
     @Autowired
     private CommentService commentService;
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "Find all comments below post with post_id")
     @GetMapping("/posts/{post_id}/comments")
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public Page<CommentResponse> getAllComments(@PathVariable("post_id") String post_id,@RequestParam(defaultValue = "0") int page, @RequestParam("size") int size){
         return commentService.getAllByPost(page,size,Long.parseLong(post_id));
     }
 
+    @ApiOperation(value = "Add new comment to post with post_id")
     @PostMapping("/posts/{post_id}/comments")
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public void addComment(@PathVariable("post_id") String id,@RequestBody CommentRequest comment){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         commentService.saveOrUpdate(comment,Long.parseLong(id),username);
     }
+    @ApiOperation(value = "Delete comment with comment_id")
     @DeleteMapping("/posts/{post_id}/comments/{comment_id}")
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public ResponseEntity<?> deleteComment(@PathVariable("post_id") String id, @PathVariable("comment_id") String comment_id){
